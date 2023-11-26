@@ -32,3 +32,47 @@ $ docker-compose run web ./manage.py createsuperuser
 `ALLOWED_HOSTS` -- настройка Django со списком разрешённых адресов. Если запрос прилетит на другой адрес, то сайт ответит ошибкой 400. Можно перечислить несколько адресов через запятую, например `127.0.0.1,192.168.0.1,site.test`. [Документация Django](https://docs.djangoproject.com/en/3.2/ref/settings/#allowed-hosts).
 
 `DATABASE_URL` -- адрес для подключения к базе данных PostgreSQL. Другие СУБД сайт не поддерживает. [Формат записи](https://github.com/jacobian/dj-database-url#url-schema).
+
+# Django site
+
+Докеризированный сайт на Django для экспериментов с Kubernetes.
+
+Внутри конейнера Django запускается с помощью Nginx Unit, не путать с Nginx. Сервер Nginx Unit выполняет сразу две функции: как веб-сервер он раздаёт файлы статики и медиа, а в роли сервера-приложений он запускает Python и Django. Таким образом Nginx Unit заменяет собой связку из двух сервисов Nginx и Gunicorn/uWSGI. [Подробнее про Nginx Unit](https://unit.nginx.org/).
+
+## Как запустить dev-версию в kubernetes
+### Запустите проект.
+
+Зайдите в папку `backend_main_django` и создайте кластер
+
+```sh
+minikube start --driver=virtualbox --no-vtx-check
+```
+
+Затем создайте образ проекта из `Dockerfile`
+
+```sh
+minikube image build -t django_app .
+```
+
+В файле  `kubernetes/web-deployment.yaml` в поле `env` поменяйте значения переменных
+```sh
+    - name: SECRET_KEY
+      value: "REPLACE_ME"
+    - name: DEBUG
+      value: "TRUE"
+    - name: ALLOWED_HOSTS
+      value: "*"
+    - name: DATABASE_URL
+      value: "postgres://test_k8s:OwOtBep9Frut@192.168.1.212:5432/test_k8s"
+```
+
+Запустите загрузку Django проекта
+
+```sh
+kubectl apply -f kubernetes/web-deployment.yaml
+```
+
+После чего нужно запустить команду и у вас откроется админка сайта
+```sh
+minikube service --all
+```
