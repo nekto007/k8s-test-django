@@ -66,7 +66,7 @@ kubectl create secret generic django-secrets \
 ```
 Замените `<your_secret_key>` и `<your_database_url>` соответствующими значениями.
 
-Запустите загрузку Django проекта
+Запустите процесс развертывания вашего Django проекта в кластере Kubernetes
 
 ```sh
 kubectl apply -f kubernetes/web-deployment.yaml
