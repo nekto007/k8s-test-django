@@ -8,18 +8,24 @@ metadata:
 spec:
  containers:
   - name : container-django
-    image: django_app
+    image: django_app:nekto007
     ports:
      - containerPort: 80
     env:
     - name: SECRET_KEY
-      value: "REPLACE_ME"
+      valueFrom:
+        secretKeyRef:
+          name: django-secrets
+          key: SECRET_KEY
     - name: DEBUG
       value: "TRUE"
     - name: ALLOWED_HOSTS
       value: "*"
     - name: DATABASE_URL
-      value: "postgres://test_k8s:OwOtBep9Frut@192.168.1.212:5432/test_k8s"
+      valueFrom:
+        secretKeyRef:
+          name: django-secrets
+          key: DATABASE_URL
 
 ---
 

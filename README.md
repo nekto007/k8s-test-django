@@ -54,17 +54,17 @@ minikube start --driver=virtualbox --no-vtx-check
 minikube image build -t django_app .
 ```
 
-В файле  `kubernetes/web-deployment.yaml` в поле `env` поменяйте значения переменных
+## Создание 'Secret' в Kubernetes
+
+Для управления секретными данными, такими как `SECRET_KEY` и `DATABASE_URL`, в Kubernetes используется объект `Secret`. 
+Вы можете создать `Secret`, используя следующую команду:
+
 ```sh
-    - name: SECRET_KEY
-      value: "REPLACE_ME"
-    - name: DEBUG
-      value: "TRUE"
-    - name: ALLOWED_HOSTS
-      value: "*"
-    - name: DATABASE_URL
-      value: "postgres://test_k8s:OwOtBep9Frut@192.168.1.212:5432/test_k8s"
+kubectl create secret generic django-secrets \
+--from-literal=SECRET_KEY=<your_secret_key> \
+--from-literal=DATABASE_URL=<your_database_url>
 ```
+Замените `<your_secret_key>` и `<your_database_url>` соответствующими значениями.
 
 Запустите загрузку Django проекта
 
