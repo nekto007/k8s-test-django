@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-migrate
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: migrate
+          image: <your-django-app-image>
+          command: [ "python", "manage.py", "migrate"]
+      containers:
+      - name: django-app
+        image: django_app:nekto007
+      restartPolicy: Never
