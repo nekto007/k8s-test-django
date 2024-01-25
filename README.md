@@ -93,3 +93,9 @@ ALTER USER youruser SUPERUSER;
 ```
 kubectl apply -f kubernetes/django-migrate.yaml
 ```
+
+Раз в месяц будет запускаться автоматическая очистка сессий Django-приложения.
+Если возникла необходимость очистить сессии Django-приложения не по расписанию, то это можно сделать в ручную:
+```
+kubectl create job --from=cronjob/django-clearsessions any_job_name
+```
