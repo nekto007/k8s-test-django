@@ -48,6 +48,11 @@ $ docker-compose run web ./manage.py createsuperuser
 minikube start --driver=virtualbox --no-vtx-check
 ```
 
+Активируйте Ingress:
+```
+minikube addons enable ingress
+```
+
 Затем создайте образ проекта из `Dockerfile`
 
 ```sh
@@ -98,4 +103,9 @@ kubectl apply -f kubernetes/django-migrate.yaml
 Если возникла необходимость очистить сессии Django-приложения не по расписанию, то это можно сделать в ручную:
 ```
 kubectl create job --from=cronjob/django-clearsessions any_job_name
+```
+
+После внесения всех изменений введите следующую команду:
+```
+kubectl apply -f kubernetes/
 ```
