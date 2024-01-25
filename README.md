@@ -91,5 +91,5 @@ ALTER USER youruser SUPERUSER;
 
 Для применения миграций базы данных используйте команду:
 ```
-kubectl apply -f kubernetes/test-django-migrate.yaml
+kubectl apply -f kubernetes/django-migrate.yaml
 ```
