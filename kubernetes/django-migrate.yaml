@@ -7,7 +7,7 @@ spec:
     spec:
       initContainers:
         - name: migrate
-          image: <your-django-app-image>
+          image: django_app:nekto007
           command: [ "python", "manage.py", "migrate"]
       containers:
       - name: django-app
