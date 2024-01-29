@@ -59,17 +59,20 @@ minikube addons enable ingress
 minikube image build -t django_app .
 ```
 
-## Создание 'Secret' в Kubernetes
+## Использование ConfigMap для конфигурации приложения
 
-Для управления секретными данными, такими как `SECRET_KEY` и `DATABASE_URL`, в Kubernetes используется объект `Secret`. 
-Вы можете создать `Secret`, используя следующую команду:
+Необходимые изменения:
 
-```sh
-kubectl create secret generic django-secrets \
---from-literal=SECRET_KEY=<your_secret_key> \
---from-literal=DATABASE_URL=<your_database_url>
+`DEBUG`: Установите в `"False"`, если вы развертываете приложение в продакшн.
+`ALLOWED_HOSTS`: Замените `"*"` на список доменов, с которых разрешен доступ к вашему приложению.
+`SECRET_KEY`:Замените `"your_secret_key"` на любое значение, важно лишь, чтобы оно никому не было известно.
+`DATABASE_URL`: Замените `"postgres://username:password@hostname:port/dbname"` на правильные данный для подключения к базе данных.
+
+Примените манифест ConfigMap к Minikube кластеру:
+
 ```
-Замените `<your_secret_key>` и `<your_database_url>` соответствующими значениями.
+kubectl apply -f ConfigMap.yaml
+```
 
 Запустите процесс развертывания вашего Django проекта в кластере Kubernetes
 
