@@ -5,7 +5,5 @@ metadata:
   labels:
     app: django-app
 data:
-  DATABASE_URL: "postgres://username:password@hostname:port/dbname"
-  SECRET_KEY: "your_secret_key"
   DEBUG: "True"
   ALLOWED_HOSTS: "*"
