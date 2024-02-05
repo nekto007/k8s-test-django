@@ -36,22 +36,3 @@ spec:
           envFrom:
             - configMapRef:
                 name: django-configmap
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: django-service
-  labels:
-    app.kubernetes.io/name: django-app
-    app.kubernetes.io/instance: django-app-mini
-spec:
-  selector:
-    app.kubernetes.io/name: django-app
-  ports:
-    - name: traffic-service
-      protocol: TCP
-      port: 80
-      targetPort: 80
-  type: NodePort
