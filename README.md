@@ -85,6 +85,29 @@ kubectl create secret generic django-secrets \
 
 Замените `<your_secret_key>` и `<your_database_url>` соответствующими значениями.
 
+
+# Использование Kubernetes Secrets для хранения конфиденциальных данных
+
+## Создание Secret
+
+Для создания объекта `Secret` с вашими конфиденциальными данными выполните следующие шаги:
+
+Вам нужно закодировать ваши конфиденциальные данные в формате base64. Например, используйте команду `echo -n 'your_data_here' | base64` в Linux или MacOS терминале.
+
+В файле django-secrets.yaml замените `<base64_encoded_DATABASE_URL>` и `<base64_encoded_SECRET_KEY>` на ваши закодированные значения:
+
+```sh
+DATABASE_URL: <base64_encoded_DATABASE_URL>
+SECRET_KEY: <base64_encoded_SECRET_KEY>
+```
+
+Примените манифест в вашем кластере Kubernetes с помощью команды:
+
+```sh
+kubectl apply -f django-secrets.yaml
+```
+
+
 Запустите процесс развертывания вашего Django проекта в кластере Kubernetes
 
 ```sh
