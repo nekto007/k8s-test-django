@@ -7,3 +7,5 @@ metadata:
 data:
   DEBUG: "True"
   ALLOWED_HOSTS: "*"
+  SECRET_KEY: "django-insecure-0if40nf4nf93n4"
+
