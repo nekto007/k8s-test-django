@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: django-secrets
+  labels:
+    app: django-app
+type: Opaque
+data:
+  DATABASE_URL: <base64_encoded_DATABASE_URL>
+  SECRET_KEY: <base64_encoded_SECRET_KEY>
