@@ -4,13 +4,12 @@ metadata:
   name: django-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
   labels:
     app.kubernetes.io/name: django-app
     app.kubernetes.io/component: test
 spec:
   rules:
-    - host: star-burger.test
+    - host: edu-mad-jang.sirius-k8s.dvmn.org
       http:
         paths:
           - path: /
