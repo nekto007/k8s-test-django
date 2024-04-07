@@ -9,12 +9,12 @@ spec:
     spec:
       containers:
         - name: django
-          image: nekto007/django_app
+          image: docker.io/nekto007/django_app:nekto007
           imagePullPolicy: Never
           command: ["python", "./manage.py", "migrate", "--no-input"]
           envFrom:
             - configMapRef:
                 name: django-config
             - secretRef:
-                name: django-secret
+                name: django-secrets
       restartPolicy: OnFailure
