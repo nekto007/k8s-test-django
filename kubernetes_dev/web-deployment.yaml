@@ -1,25 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django-deploy
+  name: django-deployment
   labels:
-    app.kubernetes.io/name: django-app
-    app.kubernetes.io/instance: django-app-mini
+    app.kubernetes.io/name: django-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: django-app
-      app.kubernetes.io/component: django-app-mini
+      app.kubernetes.io/name: django-deployment
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: django-app
-        app.kubernetes.io/component: django-app-mini
+        app.kubernetes.io/name: django-deployment
     spec:
       containers:
         - name: container-django
-          image: docker.io/nekto007/django_app:nekto007
+          image: docker.io/nekto007/django_app:nekto008
           ports:
             - containerPort: 80
           env:
