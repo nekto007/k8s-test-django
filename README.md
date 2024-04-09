@@ -146,3 +146,60 @@ kubectl create job --from=cronjob/django-clearsessions any_job_name
 ```
 kubectl apply -f kubernetes/
 ```
+
+## Запуск в кластере
+
+Сайт должен быть доступен пользователям в интернете, а для этого нам понадобится кластер с
+публичным IP-адресом и доменом. Такой кластер можно самостоятельно арендовать у облачных хостинг-
+провайдеров, настроить всё. 
+
+В данном проекте заранее подготовлен и настроен кластер YandexCloud:
+
+### Ресурсы кластера:
+* Выделен домен `edu-mad-jang.sirius-k8s.dvmn.org`. Запросы обрабатывает Yandex Application Load Balancer.
+* В Yandex Managed Service for PostgreSQL создана база данных. Доступы лежат в секрете K8s.
+* В Yandex Application Load Balancer создан роутер. Он распределяет входящие сетевые запросы на разные NodePort кластера K8s.
+* Настроен S3 Bucket. Токены и прочие настройки доступа к Object Storage API лежат в секрете K8s.
+
+### Размещение образа в docker registry
+Необходимо разместить образ приложения в [dockerhub](https://hub.docker.com):
+* Локально соберите образ:
+```shell
+docker build -t имя_образа:тег -f путь_к_Dockerfile .
+```
+* Войдите в Docker Hub:
+```shell
+docker login
+```
+* Тегируйте локальный образ:
+```shell
+docker tag имя_образа:тег ваше_имя_пользователя/имя_репозитория:тег
+```
+* Загрузите образ в Docker Hub:
+```shell
+docker push ваше_имя_пользователя/имя_репозитория:тег
+```
+
+### Получение SSL-сертификата для подключения к базе данных PostgreSQL
+PostgreSQL-хосты с публичным доступом поддерживают только шифрованные соединения. Чтобы использовать их, получите SSL-сертификат
+
+* Linux(Bash)/macOS(Zsh)
+```shell
+mkdir -p ~/.postgresql && \
+wget "https://storage.yandexcloud.net/cloud-certs/CA.pem" \
+     --output-document ~/.postgresql/root.crt && \
+chmod 0600 ~/.postgresql/root.crt
+```
+* Windows(PowerShell)
+```shell
+mkdir $HOME\.postgresql; curl.exe -o $HOME\.postgresql\root.crt https://storage.yandexcloud.net/cloud-certs/CA.pem
+```
+
+Сертификат будет сохранен в файле `$HOME\.postgresql\root.crt`
+
+### Развёртывание приложения в кластере
+
+Создайте сервис:
+```shell
+kubectl apply -f kubernetes_dev/django-service.yaml
+```
