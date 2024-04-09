@@ -208,3 +208,24 @@ kubectl apply -f kubernetes_dev/django-service.yaml
 ```shell
 kubectl apply -f kubernetes_dev/django-secrets.yaml  
 ```
+
+Примените конфигурационный файл:
+```shell
+kubectl apply -f kubernetes_dev/django-config.yaml  
+```
+
+Запустите deployment:
+```shell
+kubectl apply -f kubernetes_dev/web-deployment.yaml
+```
+
+Для очистки сессий, запустите django-clearsessions:
+```shell
+kubectl apply -f kubernetes_dev/django-clearsessions.yaml
+```
+
+
+Сайт будет доступен по ссылке [https://edu-mad-jang.sirius-k8s.dvmn.org](https://edu-mad-jang.sirius-k8s.dvmn.org)
+
+## Цели проекта
+Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте [Devman](https://dvmn.org).
