@@ -203,3 +203,8 @@ mkdir $HOME\.postgresql; curl.exe -o $HOME\.postgresql\root.crt https://storage.
 ```shell
 kubectl apply -f kubernetes_dev/django-service.yaml
 ```
+
+Примените secrets файл:
+```shell
+kubectl apply -f kubernetes_dev/django-secrets.yaml  
+```
